@@ -1,8 +1,9 @@
 # FYP - Manchester Exploration
 
-## User Center
+## User Center -- Front-end
 
-Spring + Spring MVC + Mybatis + Mybatis-Plus + SpringBoot + MySQL
+Spring + Spring MVC + Mybatis + Mybatis-Plus + SpringBoot + MySQL\
+VUE 3 + Arco Design Pro (Vite, Axios ...)
 
 ### Backend return and exception handling
 
@@ -103,7 +104,7 @@ Use the MybatisX plug-in to automatically generate pojo entity objects based on 
    * The password must have at least 2 of numbers, lowercase letters, uppercase letters, and special characters.
    * The password must be no less than 8 characters in length
 3. Record the user’s login status (session) and save it on the server
-2. Return user information (desensitization)
+4. Return user information (desensitization)
 
 #### Controller encapsulation request
 
