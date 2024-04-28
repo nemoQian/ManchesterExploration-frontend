@@ -1,6 +1,6 @@
 # FYP - Manchester Exploration
 
-## User Center -- Front-end
+## User Center -- Back-end
 
 Spring + Spring MVC + Mybatis + Mybatis-Plus + SpringBoot + MySQL\
 VUE 3 + Arco Design Pro (Vite, Axios ...)
@@ -42,8 +42,6 @@ PASSWORD_COMPARED_ERROR(40205, "Checked password is not equal to the original on
 SYSTEM_ERROR(50000, "Something wrong in the system"),
 ```
 
-
-
 #### Encapsulated business exception handling and global exception handling
 
 
@@ -68,6 +66,28 @@ User Table (user)：
 * delete_state (logical deletion 0 - not 1 - deleted) 
 * role (user role 0 - user 1 - admin)
 * tags (user tag) varchar
+
+``` mysql
+create table if not exists manchester_exploration.user
+(
+    id             bigint auto_increment comment 'column id'
+        primary key,
+    username       varchar(255)                       null comment 'login username',
+    user_password  varchar(255)                       not null comment 'login password',
+    nickname       varchar(255)                       null comment 'user nickname',
+    gender         tinyint                            null comment 'user gender 0 - female 1 - male', 
+    avatar_url     varchar(1024)                      null comment 'user avatar url',
+    phone          varchar(128)                       null comment 'user phone',
+    email          varchar(255)                       null comment 'user email',
+    account_status tinyint  default 0                 not null comment 'user account status',
+    create_time    datetime default CURRENT_TIMESTAMP null comment 'user account create time',
+    update_time    datetime default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP comment 'user account update time',
+    delete_state   tinyint  default 0                 null comment 'user account delete state',
+    user_role      tinyint  default 0                 not null comment 'user role 0 - common, 1 - admin',
+    tags           varchar(1024)                      null comment 'Tags JSON list'
+)
+    comment 'user_table';
+```
 
 Use the MybatisX plug-in to automatically generate pojo entity objects based on the database, mapper, mapper.xml, service and serviceImpl
 
@@ -104,7 +124,7 @@ Use the MybatisX plug-in to automatically generate pojo entity objects based on 
    * The password must have at least 2 of numbers, lowercase letters, uppercase letters, and special characters.
    * The password must be no less than 8 characters in length
 3. Record the user’s login status (session) and save it on the server
-4. Return user information (desensitization)
+2. Return user information (desensitization)
 
 #### Controller encapsulation request
 
@@ -154,5 +174,32 @@ Logout: Just remove the user's login status and then return to the front end
 * update_time (account data update time) datetime
 * delete_state (logical deletion 0 - not 1 - deleted) 
 
+``` mysql
+create table if not exists manchester_exploration.tags
+(
+    id            bigint auto_increment comment 'primary key'
+        primary key,
+    user_id       bigint                             null comment 'user id who creat this tag',
+    tag_name      varchar(256)                       not null comment 'tag name',
+    tag_node      varchar(256)                       not null comment 'tag id list of this tag family',
+    tag_parent_id bigint                             not null comment 'parent id of this tag in this tag family (-1 means this is the parent tag)',
+    create_time   datetime default CURRENT_TIMESTAMP not null comment 'creation time of this tag',
+    update_time   datetime default CURRENT_TIMESTAMP null on update CURRENT_TIMESTAMP comment 'tag update time',
+    delete_state  tinyint  default 0                 null comment 'tag delete state',
+    constraint tags_tag_name_uindex
+        unique (tag_name) comment 'tag name must be unique'
+)
+    comment 'tag table';
 
+create index tags_user_id_index
+    on manchester_exploration.tags (user_id)
+    comment 'index for user id';
+```
+
+
+
+#### Label Search Logic
+
+* Allow users to use multiple tags, and they will be searched only if multiple tags exist (and)
+* Allow users to use multiple tags, and any tag that exists can be searched (or)
 

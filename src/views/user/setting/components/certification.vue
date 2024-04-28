@@ -21,17 +21,17 @@
     enterpriseInfo: {} as EnterpriseCertificationModel,
     record: [],
   });
-  const fetchData = async () => {
-    try {
-      const { data: resData } = await queryCertification();
-      data.value = resData;
-    } catch (err) {
-      // you can report use errorHandler or other
-    } finally {
-      setLoading(false);
-    }
-  };
-  fetchData();
+  // const fetchData = async () => {
+  //   try {
+  //     const { data: resData } = await queryCertification();
+  //     data.value = resData;
+  //   } catch (err) {
+  //     // you can report use errorHandler or other
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+  // fetchData();
 </script>
 
 <style scoped lang="less"></style>

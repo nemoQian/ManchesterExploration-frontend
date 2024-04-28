@@ -4,10 +4,10 @@ export interface UserState {
   id: number;
   username: string;
   nickname?: string;
-  gender?: number;
+  gender?: string | number;
   avatar?: string;
   phone?: string;
   email?: string;
-  createTime?: string;
+  createTime: string;
   userRole: RoleType;
 }

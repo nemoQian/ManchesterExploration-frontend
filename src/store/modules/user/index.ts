@@ -22,7 +22,7 @@ const useUserStore = defineStore('user', {
     avatar: undefined,
     phone: undefined,
     email: undefined,
-    createTime: undefined,
+    createTime: '',
     userRole: -1,
   }),
 
@@ -52,6 +52,8 @@ const useUserStore = defineStore('user', {
     async info() {
       const res = await getUserInfo();
       this.setInfo(res.data);
+      this.createTime = this.formatDate(this.createTime);
+      this.setGender(res.data.gender);
       await this.switchRoles();
     },
 
@@ -97,6 +99,18 @@ const useUserStore = defineStore('user', {
       } finally {
         this.logoutCallBack();
       }
+    },
+
+    formatDate(dateString: string) {
+      return new Date(dateString).toLocaleDateString('en-US');
+    },
+
+    setGender(gender: number | undefined | string) {
+      if (gender === 1) {
+        this.gender = 'Male';
+      } else if (gender === 0) {
+        this.gender = 'Female';
+      } else this.gender = '';
     },
   },
 });
