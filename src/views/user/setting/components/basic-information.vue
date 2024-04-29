@@ -22,6 +22,21 @@
       />
     </a-form-item>
     <a-form-item
+      field="phone"
+      :label="$t('userSetting.basicInfo.form.label.phone')"
+      :rules="[
+        {
+          required: true,
+          message: $t('userSetting.form.error.phone.required'),
+        },
+      ]"
+    >
+      <a-input
+        v-model="formData.phone"
+        :placeholder="$t('userSetting.basicInfo.placeholder.phone')"
+      />
+    </a-form-item>
+    <a-form-item
       field="nickname"
       :label="$t('userSetting.basicInfo.form.label.nickname')"
       :rules="[
@@ -37,80 +52,27 @@
       />
     </a-form-item>
     <a-form-item
-      field="countryRegion"
-      :label="$t('userSetting.basicInfo.form.label.countryRegion')"
+      field="gender"
+      :label="$t('userSetting.basicInfo.form.label.userGender')"
       :rules="[
         {
           required: true,
-          message: $t('userSetting.form.error.countryRegion.required'),
+          message: $t('userSetting.form.error.gender.required'),
         },
       ]"
     >
       <a-select
-        v-model="formData.countryRegion"
-        :placeholder="$t('userSetting.basicInfo.placeholder.area')"
-      >
-        <a-option value="China">中国</a-option>
-      </a-select>
-    </a-form-item>
-    <a-form-item
-      field="area"
-      :label="$t('userSetting.basicInfo.form.label.area')"
-      :rules="[
-        {
-          required: true,
-          message: $t('userSetting.form.error.area.required'),
-        },
-      ]"
-    >
-      <a-cascader
-        v-model="formData.area"
-        :placeholder="$t('userSetting.basicInfo.placeholder.area')"
-        :options="[
-          {
-            label: '北京',
-            value: 'beijing',
-            children: [
-              {
-                label: '北京',
-                value: 'beijing',
-                children: [
-                  {
-                    label: '朝阳',
-                    value: 'chaoyang',
-                  },
-                ],
-              },
-            ],
-          },
-        ]"
+        v-model="formData.gender"
+        :placeholder="$t('userSetting.basicInfo.placeholder.gender')"
         allow-clear
-      />
-    </a-form-item>
-    <a-form-item
-      field="address"
-      :label="$t('userSetting.basicInfo.form.label.address')"
-    >
-      <a-input
-        v-model="formData.address"
-        :placeholder="$t('userSetting.basicInfo.placeholder.address')"
-      />
-    </a-form-item>
-    <a-form-item
-      field="profile"
-      :label="$t('userSetting.basicInfo.form.label.profile')"
-      :rules="[
-        {
-          maxLength: 200,
-          message: $t('userSetting.form.error.profile.maxLength'),
-        },
-      ]"
-      row-class="keep-margin"
-    >
-      <a-textarea
-        v-model="formData.profile"
-        :placeholder="$t('userSetting.basicInfo.placeholder.profile')"
-      />
+      >
+        <a-option value="Male">{{
+          $t('userSetting.basicInfo.form.label.male')
+        }}</a-option>
+        <a-option value="Female">{{
+          $t('userSetting.basicInfo.form.label.female')
+        }}</a-option>
+      </a-select>
     </a-form-item>
     <a-form-item>
       <a-space>
@@ -129,21 +91,23 @@
   import { ref } from 'vue';
   import { FormInstance } from '@arco-design/web-vue/es/form';
   import { BasicInfoModel } from '@/api/user-center';
+  import { useUserStore } from "@/store";
+
+  const userStore = useUserStore();
 
   const formRef = ref<FormInstance>();
   const formData = ref<BasicInfoModel>({
-    email: '',
-    nickname: '',
-    countryRegion: '',
-    area: '',
-    address: '',
-    profile: '',
+    email: userStore.email,
+    nickname: userStore.nickname,
+    gender: userStore.gender,
+    phone: userStore.phone,
   });
   const validate = async () => {
     const res = await formRef.value?.validate();
     if (!res) {
       // do some thing
       // you also can use html-type to submit
+      console.log(formData);
     }
   };
   const reset = async () => {

@@ -6,5 +6,6 @@ export default {
     icon: 'icon-question-circle',
     requiresAuth: true,
     order: 9,
+    roles: [1],
   },
 };

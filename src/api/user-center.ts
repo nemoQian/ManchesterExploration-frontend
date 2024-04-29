@@ -40,12 +40,10 @@ export function saveUserInfo() {
 }
 
 export interface BasicInfoModel {
-  email: string;
-  nickname: string;
-  countryRegion: string;
-  area: string;
-  address: string;
-  profile: string;
+  email: string | undefined;
+  nickname: string | undefined;
+  gender: string | number | undefined;
+  phone: string | undefined;
 }
 
 export interface EnterpriseCertificationModel {

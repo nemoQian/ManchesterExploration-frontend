@@ -6,5 +6,6 @@ export default {
     icon: 'icon-link',
     requiresAuth: true,
     order: 8,
+    roles: [1],
   },
 };

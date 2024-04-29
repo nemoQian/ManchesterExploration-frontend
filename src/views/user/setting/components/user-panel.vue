@@ -27,6 +27,7 @@
           width: '140px',
           fontWeight: 'normal',
           color: 'rgb(var(--gray-8))',
+          paddingBottom: '8px',
         }"
         :value-style="{
           width: '200px',
@@ -36,12 +37,17 @@
       >
         <template #label="{ label }">{{ $t(label) }} :</template>
         <template #value="{ value }">
-          <a-tag v-if="value === ''" color="gray" size="small">
+          <a-tag
+            v-if="value === '' || value === null"
+            color="gray"
+            size="small"
+          >
             {{ $t('userSetting.label.unknown') }}
           </a-tag>
           <span>{{ value }}</span>
         </template>
       </a-descriptions>
+      <tags-settings id="tags"/>
     </a-space>
   </a-card>
 </template>
@@ -55,6 +61,7 @@
   import { useUserStore } from '@/store';
   import { userUploadApi } from '@/api/user-center';
   import type { DescData } from '@arco-design/web-vue/es/descriptions/interface';
+  import TagsSettings from "@/views/user/setting/components/tags-settings.vue";
 
   const userStore = useUserStore();
   const file = {
@@ -86,6 +93,10 @@
     {
       label: 'userSetting.label.phone',
       value: userStore.phone,
+    },
+    {
+      label: 'userSetting.label.tags',
+      value: ' ',
     },
   ] as DescData[];
   const fileList = ref<FileItem[]>([file]);
@@ -138,7 +149,7 @@
 
 <style scoped lang="less">
   .arco-card {
-    padding: 14px 0 4px 4px;
+    padding: 14px 0 6px 4px;
     border-radius: 4px;
   }
   :deep(.arco-avatar-trigger-icon-button) {
@@ -151,5 +162,10 @@
       color: rgb(var(--arcoblue-6));
       font-size: 14px;
     }
+  }
+  #tags {
+    position: relative;
+    left: -593px;
+    top: 50px;
   }
 </style>

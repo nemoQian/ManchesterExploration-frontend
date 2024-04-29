@@ -11,14 +11,12 @@ export default {
   'login.form.forgetPassword': 'Forgot password',
   'login.form.login': 'Login',
   'login.form.register': 'Register account',
-  'login.banner.slogan1': 'Out-of-the-box high-quality template',
+  'login.banner.slogan1': 'Your super tour assistant',
   'login.banner.subSlogan1':
-    'Rich page templates, covering most typical business scenarios',
-  'login.banner.slogan2': 'Built-in solutions to common problems',
+    'Rich points of interest, covering most location types',
+  'login.banner.slogan2': 'Built-in large map to help you guide easily',
   'login.banner.subSlogan2':
-    'Internationalization, routing configuration, state management everything',
-  'login.banner.slogan3': 'Access visualization enhancement tool AUX',
-  'login.banner.subSlogan3': 'Realize flexible block development',
+    'Internationalization, plan management, personal management everything',
 
   'register.form.title': 'Welcome to Exploration',
   'register.form.register': 'Register',

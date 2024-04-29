@@ -23,6 +23,7 @@ export interface LoginRes {
   phone: undefined;
   email: undefined;
   createTime: undefined;
+  tags: Array<string>;
   userRole: -1;
 }
 
@@ -35,7 +36,7 @@ export function register(data: RegisterData) {
 }
 
 export function logout() {
-  return axios.post<LoginRes>('/api/user/logout');
+  return axios.get<LoginRes>('/api/user/logout');
 }
 
 export function getUserInfo() {

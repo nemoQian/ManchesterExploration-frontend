@@ -29,7 +29,7 @@ const EXCEPTION: AppRouteRecordRaw = {
       meta: {
         locale: 'menu.exception.404',
         requiresAuth: true,
-        roles: [-1],
+        roles: [1],
       },
     },
     {
@@ -39,7 +39,7 @@ const EXCEPTION: AppRouteRecordRaw = {
       meta: {
         locale: 'menu.exception.500',
         requiresAuth: true,
-        roles: [-1],
+        roles: [1],
       },
     },
   ],

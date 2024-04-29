@@ -19,7 +19,7 @@ const LIST: AppRouteRecordRaw = {
       meta: {
         locale: 'menu.list.searchTable',
         requiresAuth: true,
-        roles: [-1],
+        roles: [1],
       },
     },
     {
@@ -29,7 +29,7 @@ const LIST: AppRouteRecordRaw = {
       meta: {
         locale: 'menu.list.cardList',
         requiresAuth: true,
-        roles: [-1],
+        roles: [1],
       },
     },
   ],
