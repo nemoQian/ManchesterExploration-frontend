@@ -11,8 +11,9 @@
       :label="$t('userSetting.basicInfo.form.label.email')"
       :rules="[
         {
-          required: true,
-          message: $t('userSetting.form.error.email.required'),
+          required: false,
+          type: 'email',
+          message: $t('userSetting.form.error.email.valid'),
         },
       ]"
     >
@@ -26,7 +27,7 @@
       :label="$t('userSetting.basicInfo.form.label.phone')"
       :rules="[
         {
-          required: true,
+          required: false,
           message: $t('userSetting.form.error.phone.required'),
         },
       ]"
@@ -41,7 +42,7 @@
       :label="$t('userSetting.basicInfo.form.label.nickname')"
       :rules="[
         {
-          required: true,
+          required: false,
           message: $t('userSetting.form.error.nickname.required'),
         },
       ]"
@@ -56,7 +57,7 @@
       :label="$t('userSetting.basicInfo.form.label.userGender')"
       :rules="[
         {
-          required: true,
+          required: false,
           message: $t('userSetting.form.error.gender.required'),
         },
       ]"
@@ -74,6 +75,9 @@
         }}</a-option>
       </a-select>
     </a-form-item>
+    <a-form-item :label="$t('userSetting.basicInfo.form.label.updateTime')">
+      {{ updateTime }}
+    </a-form-item>
     <a-form-item>
       <a-space>
         <a-button type="primary" @click="validate">
@@ -90,10 +94,16 @@
 <script lang="ts" setup>
   import { ref } from 'vue';
   import { FormInstance } from '@arco-design/web-vue/es/form';
-  import { BasicInfoModel } from '@/api/user-center';
+  import { BasicInfoModel, updateUserInfo } from '@/api/user-center';
   import { useUserStore } from '@/store';
+  import useLoading from '@/hooks/loading';
+  import { Message } from '@arco-design/web-vue';
 
   const userStore = useUserStore();
+
+  const { updateTime } = userStore;
+  const errorMessage = ref('');
+  const { setLoading } = useLoading();
 
   const formRef = ref<FormInstance>();
   const formData = ref<BasicInfoModel>({
@@ -102,12 +112,24 @@
     gender: userStore.gender,
     phone: userStore.phone,
   });
+
+
+
   const validate = async () => {
-    const res = await formRef.value?.validate();
-    if (!res) {
-      // do something
-      // you also can use html-type to submit
-      console.log(formData);
+    const val = await formRef.value?.validate();
+    if (!val) {
+      setLoading(true);
+      try {
+        await updateUserInfo(formData.value);
+        Message.success('Information Update Successful');
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      } catch (err) {
+        errorMessage.value = (err as Error).message;
+      } finally {
+        setLoading(false);
+      }
     }
   };
   const reset = async () => {

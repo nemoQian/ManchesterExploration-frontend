@@ -46,32 +46,8 @@ export interface BasicInfoModel {
   phone: string | undefined;
 }
 
-export interface EnterpriseCertificationModel {
-  accountType: number;
-  status: number;
-  time: string;
-  legalPerson: string;
-  certificateType: string;
-  authenticationNumber: string;
-  enterpriseName: string;
-  enterpriseCertificateType: string;
-  organizationCode: string;
-}
-
-export type CertificationRecord = Array<{
-  certificationType: number;
-  certificationContent: string;
-  status: number;
-  time: string;
-}>;
-
-export interface UnitCertification {
-  enterpriseInfo: EnterpriseCertificationModel;
-  record: CertificationRecord;
-}
-
-export function queryCertification() {
-  return axios.post<UnitCertification>('/api/user/certification');
+export function updateUserInfo(data: BasicInfoModel) {
+  return axios.post('/api/user/updateUserInfo', data);
 }
 
 export function userUploadApi(

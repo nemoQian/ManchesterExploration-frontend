@@ -23,6 +23,7 @@ const useUserStore = defineStore('user', {
     phone: undefined,
     email: undefined,
     createTime: '',
+    updateTime: '',
     tags: [],
     userRole: -1,
   }),
@@ -54,6 +55,7 @@ const useUserStore = defineStore('user', {
       const res = await getUserInfo();
       this.setInfo(res.data);
       this.createTime = this.formatDate(this.createTime);
+      this.updateTime = this.formatDate(this.updateTime);
       this.setGender(res.data.gender);
       this.tags = JSON.parse(res.data.tags.toString());
       await this.switchRoles();
@@ -104,7 +106,7 @@ const useUserStore = defineStore('user', {
     },
 
     formatDate(dateString: string) {
-      return new Date(dateString).toLocaleDateString('en-US');
+      return new Date(dateString).toLocaleDateString('en-UK');
     },
 
     setGender(gender: number | undefined | string) {

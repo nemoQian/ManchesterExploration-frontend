@@ -9,6 +9,7 @@ export interface UserState {
   phone?: string;
   email?: string;
   createTime: string;
+  updateTime: string;
   tags: string[];
   userRole: RoleType;
 }
