@@ -84,7 +84,9 @@
   };
 
   const confirmEdit = () => {
-    userTags.value.push(newTag.value);
+    if (newTag.value !== '') {
+      userTags.value.push(newTag.value);
+    }
     console.log(userTags.value);
     showEdit.value = false;
     newTag.value = '';

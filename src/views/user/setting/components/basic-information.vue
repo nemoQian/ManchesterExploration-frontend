@@ -91,7 +91,7 @@
   import { ref } from 'vue';
   import { FormInstance } from '@arco-design/web-vue/es/form';
   import { BasicInfoModel } from '@/api/user-center';
-  import { useUserStore } from "@/store";
+  import { useUserStore } from '@/store';
 
   const userStore = useUserStore();
 
@@ -105,7 +105,7 @@
   const validate = async () => {
     const res = await formRef.value?.validate();
     if (!res) {
-      // do some thing
+      // do something
       // you also can use html-type to submit
       console.log(formData);
     }

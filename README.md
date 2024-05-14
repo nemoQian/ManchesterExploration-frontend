@@ -30,7 +30,7 @@ REQUEST_ERROR(40000, "Request error"),
 PARAMS_EMPTY_ERROR(40001, "Input params is empty"),
 USER_AUTH_ERROR(40002, ""),
 
-NO_RESULTS_ERROR(40100, "No results finding"),
+NO_RESULTS_ERROR(40100, "Username or Password Wrong"),
 
 DUPLICATE_USER_ERROR(40200, "User info duplicated"),
 USERNAME_LENGTH_ERROR(40201, "Username length need over 4"),

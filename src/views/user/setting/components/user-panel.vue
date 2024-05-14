@@ -149,7 +149,7 @@
 
 <style scoped lang="less">
   .arco-card {
-    padding: 14px 0 6px 4px;
+    padding: 14px 0 50px 4px;
     border-radius: 4px;
   }
   :deep(.arco-avatar-trigger-icon-button) {
@@ -164,8 +164,8 @@
     }
   }
   #tags {
-    position: relative;
-    left: -593px;
-    top: 50px;
+    position: absolute;
+    left: 327px;
+    top: 127px;
   }
 </style>
