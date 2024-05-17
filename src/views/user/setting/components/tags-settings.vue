@@ -20,6 +20,8 @@
       size="mini"
       allow-clear
       @change="handleEdit"
+      :load-more="loadTreeChildData"
+      @click="loadTreeRootData"
     ></a-tree-select>
     <a-button v-if="showEdit" type="primary" size="mini" @click="confirmEdit">
       confirm
@@ -33,6 +35,8 @@
 <script lang="ts" setup>
   import { ref, nextTick } from 'vue';
   import { useUserStore } from '@/store';
+  import { getChildTags, getRootTags } from "@/api/tags";
+  import useLoading from "@/hooks/loading";
 
   const userStore = useUserStore();
   const userTags = ref(userStore.tags);
@@ -40,33 +44,29 @@
   const newTag = ref('');
 
   const showEdit = ref(false);
+  const errorMessage = ref('');
+  const { setLoading } = useLoading();
 
-  const treeData = [
-    {
-      key: 'Trunk1',
-      title: 'Trunk1',
-      children: [
-        {
-          key: 'Leaf11',
-          title: 'Leaf11',
-        },
-      ],
-    },
-    {
-      key: 'Trunk2',
-      title: 'Trunk2',
-      children: [
-        {
-          key: 'Leaf22',
-          title: 'Leaf22',
-        },
-        {
-          key: 'Leaf33',
-          title: 'Leaf33',
-        },
-      ],
-    },
-  ];
+  const treeData = ref([{}]);
+  const loadTreeRootData = async () => {
+    try {
+      const res = await getRootTags();
+      treeData.value = JSON.parse(res.data);
+    } catch (err) {
+      errorMessage.value = (err as Error).message;
+    } finally {
+      setLoading(false);
+    }
+  };
+  const loadTreeChildData = async (nodeData: any) => {
+    console.log(nodeData);
+    const res = await getChildTags(nodeData.key);
+    console.log(res);
+    return new Promise((resolve) => {
+      nodeData.children = JSON.parse(res.data);
+      resolve(nodeData);
+    });
+  };
 
   const handleEdit = () => {
     showEdit.value = true;
