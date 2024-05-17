@@ -51,12 +51,12 @@ export function updateUserInfo(data: BasicInfoModel) {
 }
 
 export function userUploadApi(
-  data: FormData,
+  avatar: FormData,
   config: {
     controller: AbortController;
     onUploadProgress?: (progressEvent: any) => void;
   }
 ) {
-  // const controller = new AbortController();
-  return axios.post('/api/user/upload', data, config);
+  console.log(avatar.get('avatar'));
+  return axios.post('/api/user/updateAvatar', avatar);
 }

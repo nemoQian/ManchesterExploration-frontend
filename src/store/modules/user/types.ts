@@ -5,7 +5,7 @@ export interface UserState {
   username: string;
   nickname?: string;
   gender?: string | number;
-  avatar?: string;
+  avatarUrl?: string;
   phone?: string;
   email?: string;
   createTime: string;

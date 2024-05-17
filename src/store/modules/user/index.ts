@@ -19,7 +19,7 @@ const useUserStore = defineStore('user', {
     username: '',
     nickname: undefined,
     gender: undefined,
-    avatar: undefined,
+    avatarUrl: undefined,
     phone: undefined,
     email: undefined,
     createTime: '',
@@ -59,19 +59,17 @@ const useUserStore = defineStore('user', {
       this.setGender(res.data.gender);
       this.tags = JSON.parse(res.data.tags.toString());
       await this.switchRoles();
+      console.log(res.data)
     },
 
     // Login
     async login(loginForm: LoginData) {
-      console.log(loginForm);
       try {
         const res = await userLogin(loginForm);
         // setToken(res.data.token);
-        console.log(res);
         setToken('token');
       } catch (err) {
         clearToken();
-        console.log(err);
         throw err;
       }
     },
@@ -81,7 +79,6 @@ const useUserStore = defineStore('user', {
       console.log(registerForm);
       try {
         const res = await register(registerForm);
-        console.log(res);
       } catch (err) {
         clearToken();
         throw err;

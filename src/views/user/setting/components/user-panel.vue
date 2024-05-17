@@ -62,12 +62,13 @@
   import { userUploadApi } from '@/api/user-center';
   import type { DescData } from '@arco-design/web-vue/es/descriptions/interface';
   import TagsSettings from "@/views/user/setting/components/tags-settings.vue";
+  import { Message } from "@arco-design/web-vue";
 
   const userStore = useUserStore();
   const file = {
     uid: '-2',
     name: 'avatar.png',
-    url: userStore.avatar,
+    url: userStore.avatarUrl,
   };
   const renderData = [
     {
@@ -113,7 +114,7 @@
         onError,
         onSuccess,
         fileItem,
-        name = 'file',
+        name = 'avatar',
       } = options;
       onProgress(20);
       const formData = new FormData();
@@ -125,16 +126,13 @@
         }
         onProgress(parseInt(String(percent), 10), event);
       };
-
       try {
-        // https://github.com/axios/axios/issues/1630
-        // https://github.com/nuysoft/Mock/issues/127
-
         const res = await userUploadApi(formData, {
           controller,
           onUploadProgress,
         });
         onSuccess(res);
+        Message.success('Avatar upload successfully');
       } catch (error) {
         onError(error);
       }
