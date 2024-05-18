@@ -15,12 +15,14 @@
     <a-tree-select
       v-model="newTag"
       :data="treeData"
+      :multiple="true"
+      :max-tag-count="2"
       placeholder="Please select"
-      style="width: 130px"
+      style="width: 200px"
       size="mini"
       allow-clear
-      @change="handleEdit"
       :load-more="loadTreeChildData"
+      @change="handleEdit"
       @click="loadTreeRootData"
     ></a-tree-select>
     <a-button v-if="showEdit" type="primary" size="mini" @click="confirmEdit">
@@ -37,11 +39,13 @@
   import { useUserStore } from '@/store';
   import { getChildTags, getRootTags } from "@/api/tags";
   import useLoading from "@/hooks/loading";
+  import { updateUserTags } from "@/api/user-center";
+  import { Message } from "@arco-design/web-vue";
 
   const userStore = useUserStore();
   const userTags = ref(userStore.tags);
   const originalTags = ref(userStore.tags);
-  const newTag = ref('');
+  const newTag = ref([]);
 
   const showEdit = ref(false);
   const errorMessage = ref('');
@@ -59,9 +63,7 @@
     }
   };
   const loadTreeChildData = async (nodeData: any) => {
-    console.log(nodeData);
     const res = await getChildTags(nodeData.key);
-    console.log(res);
     return new Promise((resolve) => {
       nodeData.children = JSON.parse(res.data);
       resolve(nodeData);
@@ -75,7 +77,6 @@
   const handleRemove = (key: string) => {
     userTags.value = userTags.value.filter((tag: string) => tag !== key);
     showEdit.value = true;
-    console.log(key);
   };
 
   const cancelEdit = () => {
@@ -84,13 +85,19 @@
   };
 
   const confirmEdit = () => {
-    if (newTag.value !== '') {
-      userTags.value.push(newTag.value);
+    userTags.value.push(...newTag.value);
+    try {
+      updateUserTags(userTags.value);
+      Message.success('Tags upload successfully');
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    } catch (error) {
+      //
     }
-    console.log(userTags.value);
     showEdit.value = false;
-    newTag.value = '';
-  }
+    newTag.value = [];
+  };
 </script>
 
 <style lang="scss" scoped></style>

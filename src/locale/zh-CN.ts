@@ -7,6 +7,7 @@ import localeMonitor from '@/views/dashboard/monitor/locale/zh-CN';
 
 import localeSearchTable from '@/views/list/search-table/locale/zh-CN';
 import localeCardList from '@/views/list/card/locale/zh-CN';
+import localeMatchingList from '@/views/user_tag_list/locale/zh-CN';
 
 import localeStepForm from '@/views/form/step/locale/zh-CN';
 import localeGroupForm from '@/views/form/group/locale/zh-CN';
@@ -52,6 +53,7 @@ export default {
   ...localeMonitor,
   ...localeSearchTable,
   ...localeCardList,
+  ...localeMatchingList,
   ...localeStepForm,
   ...localeGroupForm,
   ...localeBasicProfile,

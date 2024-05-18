@@ -57,9 +57,11 @@ const useUserStore = defineStore('user', {
       this.createTime = this.formatDate(this.createTime);
       this.updateTime = this.formatDate(this.updateTime);
       this.setGender(res.data.gender);
-      this.tags = JSON.parse(res.data.tags.toString());
+      if (res.data.tags !== null) {
+        this.tags = JSON.parse(res.data.tags.toString());
+      }
       await this.switchRoles();
-      console.log(res.data)
+      console.log(res.data);
     },
 
     // Login

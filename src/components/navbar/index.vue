@@ -22,7 +22,12 @@
     <ul class="right-side">
       <li>
         <a-tooltip :content="$t('settings.search')">
-          <a-button class="nav-btn" type="outline" :shape="'circle'">
+          <a-button
+            class="nav-btn"
+            type="outline"
+            :shape="'circle'"
+            @click="toSearch"
+          >
             <template #icon>
               <icon-search />
             </template>
@@ -198,16 +203,18 @@
   import useLocale from '@/hooks/locale';
   import useUser from '@/hooks/user';
   import Menu from '@/components/menu/index.vue';
+  import { useRouter } from "vue-router";
   import MessageBox from '../message-box/index.vue';
 
   const appStore = useAppStore();
   const userStore = useUserStore();
+  const router = useRouter();
   const { logout } = useUser();
   const { changeLocale, currentLocale } = useLocale();
   const { isFullscreen, toggle: toggleFullScreen } = useFullscreen();
   const locales = [...LOCALE_OPTIONS];
   const avatar = computed(() => {
-    return userStore.avatar;
+    return userStore.avatarUrl;
   });
   const theme = computed(() => {
     return appStore.theme;
@@ -225,6 +232,10 @@
     },
   });
   const toggleTheme = useToggle(isDark);
+
+  const toSearch = () => {
+    router.push({ name: 'user-list' });
+  };
   const handleToggleTheme = () => {
     toggleTheme();
   };

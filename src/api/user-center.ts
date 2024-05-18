@@ -60,3 +60,7 @@ export function userUploadApi(
   console.log(avatar.get('avatar'));
   return axios.post('/api/user/updateAvatar', avatar);
 }
+
+export function updateUserTags(tags: string[]){
+  return axios.post('/api/user/updateUserTags', tags);
+}
