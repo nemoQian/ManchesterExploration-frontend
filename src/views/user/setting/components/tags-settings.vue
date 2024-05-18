@@ -19,8 +19,8 @@
       style="width: 130px"
       size="mini"
       allow-clear
-      @change="handleEdit"
       :load-more="loadTreeChildData"
+      @change="handleEdit"
       @click="loadTreeRootData"
     ></a-tree-select>
     <a-button v-if="showEdit" type="primary" size="mini" @click="confirmEdit">
