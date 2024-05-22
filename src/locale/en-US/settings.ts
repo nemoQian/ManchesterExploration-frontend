@@ -2,6 +2,7 @@ export default {
   'settings.title': 'Settings',
   'settings.themeColor': 'Theme Color',
   'settings.content': 'Content Setting',
+  'settings.map': 'Map',
   'settings.search': 'Search',
   'settings.language': 'Language',
   'settings.navbar': 'Navbar',

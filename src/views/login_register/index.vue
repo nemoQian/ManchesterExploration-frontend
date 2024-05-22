@@ -19,6 +19,18 @@
       </div>
     </div>
     <div class="right-side">
+      <a-tooltip :content="$t('settings.map')">
+        <a-button
+          class="nav-btn"
+          type="outline"
+          :shape="'circle'"
+          @click="toMap"
+        >
+          <template #icon>
+            <icon-book />
+          </template>
+        </a-button>
+      </a-tooltip>
       <a-tooltip :content="$t('settings.language')">
         <a-button
           class="nav-btn"
@@ -55,10 +67,12 @@
   import { ref } from 'vue';
   import useLocale from '@/hooks/locale';
   import { LOCALE_OPTIONS } from '@/locale';
+  import { useRouter } from 'vue-router';
   import LoginBanner from './components/banner.vue';
   import LoginForm from './components/login-form.vue';
   import RegisterForm from './components/register-from.vue';
 
+  const router = useRouter();
   const { changeLocale, currentLocale } = useLocale();
   const locales = [...LOCALE_OPTIONS];
   const triggerBtn = ref();
@@ -79,6 +93,10 @@
   };
 
   const logoUrl = new URL('../../assets/logo.svg', import.meta.url);
+
+  const toMap = () => {
+    router.push({ path: '/map' });
+  };
 </script>
 
 <style lang="less" scoped>
