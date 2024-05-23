@@ -18,46 +18,10 @@
         <Footer />
       </div>
     </div>
-    <div class="right-side">
-      <a-tooltip :content="$t('settings.map')">
-        <a-button
-          class="nav-btn"
-          type="outline"
-          :shape="'circle'"
-          @click="toMap"
-        >
-          <template #icon>
-            <icon-book />
-          </template>
-        </a-button>
-      </a-tooltip>
-      <a-tooltip :content="$t('settings.language')">
-        <a-button
-          class="nav-btn"
-          type="outline"
-          :shape="'circle'"
-          @click="setDropDownVisible"
-        >
-          <template #icon>
-            <icon-language />
-          </template>
-        </a-button>
-      </a-tooltip>
-      <a-dropdown trigger="click" @select="changeLocale as any">
-        <div ref="triggerBtn" class="trigger-btn"></div>
-        <template #content>
-          <a-doption
-            v-for="item in locales"
-            :key="item.value"
-            :value="item.value"
-          >
-            <template #icon>
-              <icon-check v-show="item.value === currentLocale" />
-            </template>
-            {{ item.label }}
-          </a-doption>
-        </template>
-      </a-dropdown>
+    <div>
+      <a-button type="primary" shape="round" class="map-button" @click="toMap">
+        Map
+      </a-button>
     </div>
   </div>
 </template>
@@ -140,6 +104,16 @@
       color: var(--color-fill-1);
       font-size: 20px;
     }
+  }
+
+  .map-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1;
+    border: none;
+    padding: 10px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   }
 </style>
 
