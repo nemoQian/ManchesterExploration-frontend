@@ -1,8 +1,9 @@
 <template>
   <div class="map-controls">
-    <a-button class="map-button" @click="toggleSearch">{{
+    <a-button class="map-button" type="primary" shape="round" @click="toggleSearch">{{
       searchVisible ? 'Hide' : 'Search'
     }}</a-button>
+
     <input
       v-if="searchVisible"
       type="text"
@@ -33,18 +34,16 @@
   }
 
   .map-button {
-    background-color: white;
     border: none;
     padding: 10px 20px;
     cursor: pointer;
-    border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   }
 
   .map-search {
     padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 25px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   }
 </style>
