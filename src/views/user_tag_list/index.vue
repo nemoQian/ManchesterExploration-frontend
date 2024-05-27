@@ -12,10 +12,7 @@
           >
             <a-row :gutter="16">
               <a-col :span="14">
-                <a-form-item
-                  field="tags"
-                  :label="$t('searchTable.form.tags')"
-                >
+                <a-form-item field="tags" :label="$t('searchTable.form.tags')">
                   <a-tree-select
                     v-model="formModel.tags"
                     :multiple="true"
@@ -120,9 +117,7 @@
         </template>
         <template #nickname="{ record }">
           <a-space>
-            <a-tag v-if="record.nickname === null" color="gray">
-              Empty
-            </a-tag>
+            <a-tag v-if="record.nickname === null" color="gray"> Empty </a-tag>
             <a-tag v-else color="green">
               {{ record.nickname }}
             </a-tag>
@@ -148,7 +143,12 @@
         </template>
         <template #userId="{ record }">
           <a-space>
-            <a-button type="text" size="small" @click="handleUserPageChange(record.userId)">View</a-button>
+            <a-button
+              type="text"
+              size="small"
+              @click="handleUserPageChange(record.userId)"
+              >View</a-button
+            >
           </a-space>
         </template>
       </a-table>
@@ -165,7 +165,7 @@
   import cloneDeep from 'lodash/cloneDeep';
   import Sortable from 'sortablejs';
   import { getChildTags, getRootTags } from '@/api/tags';
-  import { ListParams, queryTagUserList, TagUserList } from "@/api/tagUserList";
+  import { ListParams, queryTagUserList, TagUserList } from '@/api/tagUserList';
 
   type SizeProps = 'mini' | 'small' | 'medium' | 'large';
   type Column = TableColumnData & { checked?: true };
@@ -265,9 +265,9 @@
     } as unknown as ListParams);
   };
 
-  const handleUserPageChange = (userId : number) => {
+  const handleUserPageChange = (userId: number) => {
     console.log(userId);
-  }
+  };
   const onPageChange = (current: number) => {
     fetchData({ ...basePagination, current });
   };

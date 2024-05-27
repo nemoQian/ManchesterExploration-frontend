@@ -1,20 +1,25 @@
 <template>
-  <div id="mapbox" class="mapbox">
+  <div id="mapbox" class="mapbox"></div>
+  <div>
     <a-button type="primary" shape="round" class="map-button" @click="toLogin">
       Login
     </a-button>
-    <MapSearch />
+    <MapSearch :map="map"/>
   </div>
 </template>
 
 <script lang="ts" setup>
+  import { ref } from 'vue';
   import mapboxgl from 'mapbox-gl';
   import { onMounted } from 'vue';
   import { useRouter } from 'vue-router';
 
   import MapSearch from '@/views/map/map_shown/search.vue';
+  import 'mapbox-gl/dist/mapbox-gl.css';
 
   const router = useRouter();
+
+  const map = ref();
 
   onMounted(() => {
     mapboxgl.accessToken =
@@ -22,12 +27,12 @@
 
     const mapOption: mapboxgl = {
       container: 'mapbox',
-      style: 'mapbox://styles/nemoq/clthhxvix008o01qx9ti925fx',
+      style: 'mapbox://styles/mapbox/streets-v11',
       center: [-2.240722, 53.478422],
       zoom: 13,
     };
 
-    const map = new mapboxgl.Map(mapOption);
+    map.value = new mapboxgl.Map(mapOption);
   });
 
   const toLogin = () => {
