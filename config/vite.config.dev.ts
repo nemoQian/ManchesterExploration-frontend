@@ -13,7 +13,7 @@ export default mergeConfig(
       },
       proxy: {
         '/api': {
-          target: 'http://127.0.0.1:8080',
+          target: 'http://127.0.0.1:8101',
           changeOrigin: true,
           secure: false, // 如果是https接口，需要配置这个参数
           agent: new http.Agent(),
