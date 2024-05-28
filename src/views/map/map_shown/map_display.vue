@@ -4,7 +4,7 @@
     <a-button type="primary" shape="round" class="map-button" @click="toLogin">
       Login
     </a-button>
-    <MapSearch :map="map"/>
+    <MapSearch :map="map" />
   </div>
 </template>
 
@@ -54,9 +54,5 @@
     border: none;
     padding: 10px 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  }
-
-  /deep/ .mapboxgl-control-container {
-    display: none !important;
   }
 </style>
