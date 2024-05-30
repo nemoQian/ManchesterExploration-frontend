@@ -1,14 +1,15 @@
 import axios from 'axios';
 
 
-export interface buildingInfo {
+export interface placeInfo {
   buildingName: string;
   lnglat: [];
 }
 
-export interface buildingName {
-  title: string;
+export interface searchData {
+  searchName: string;
+  searchTag: string;
 }
-export function searchBuilding(data: buildingName) {
-  return axios.post<buildingInfo[]>('/api/map/building/search', data);
+export function searchPlace(data: searchData) {
+  return axios.post<placeInfo[]>('/api/map/place/search', data);
 }
