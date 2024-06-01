@@ -13,8 +13,24 @@
       allow-clear
     />
 
+    <a-select
+      v-if="searchVisible"
+      v-model="searchForm.searchCategories"
+      placeholder="Filter By Categories"
+      style="width: 300px; border-radius: 25px"
+      allow-clear
+      allow-search>
+      <a-option
+        v-for="item of categoriesData"
+        :key="item.label"
+        :value="item.value"
+        :label="item.label"
+      />
+    </a-select>
+
     <a-tree-select
       v-if="searchVisible"
+      v-model="searchForm.searchTag"
       border
       :allow-search="true"
       :allow-clear="true"
@@ -33,12 +49,13 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref } from 'vue';
+  import { ref } from "vue";
   import mapboxgl from 'mapbox-gl';
-  import { searchPlace } from "@/api/map";
-  import { Message } from '@arco-design/web-vue';
+  import { getSelectTree, searchPlace } from "@/api/map";
 
   const errorMessage = ref('');
+
+  const categoriesData = ref([{}]);
 
   const tagData = ref([
     {
@@ -98,20 +115,34 @@
   const props = defineProps<{ map: null }>();
 
   const searchForm = ref({
-    searchName: '',
-    searchTag: '',
+    searchName: null,
+    searchCategories: null,
+    searchTag: null,
   });
+
+  const handleSelectGet = async () => {
+    const res = await getSelectTree();
+    categoriesData.value = res.data;
+  }
   const toggleSearch = () => {
     searchVisible.value = !searchVisible.value;
+    handleSelectGet()
   };
+
   const filterTreeNode = (searchValue, nodeData) => {
     return nodeData.title.toLowerCase().indexOf(searchValue.toLowerCase()) > -1;
   };
 
-  const addMarker = (lnglat: [number, number], name: string) => {
+  const addMarker = async (lnglat: [number, number], name: string, description: []) => {
     const marker = new mapboxgl.Marker()
       .setLngLat(lnglat)
-      .setPopup(new mapboxgl.Popup().setHTML(`<h3>${name}</h3>`))
+      .setPopup(new mapboxgl.Popup().setHTML(
+        `<div>
+          <h2>${name}</h2>
+          <p> website: ${description.website} </p>
+          <p> Open Hours: ${description.opening_hours} </p>
+          <a href="#" onclick="addPlan()">Manage</>
+        </div>`))
       .addTo(props.map);
     mapMarker.value.push(marker);
   };
@@ -121,10 +152,6 @@
     mapMarker.value = [];
   };
   const search = async () => {
-    if(!searchForm.value.searchName) {
-      Message.error('Please input your search query.');
-      return;
-    }
     console.log(searchForm.value.searchName);
     clearMarkers();
     try {
@@ -132,8 +159,8 @@
       markData.value = res.data;
       console.log(res);
       markData.value.forEach((item: any) => {
-        const { placeName, lnglat } = item;
-        addMarker(lnglat, placeName);
+        const { placeName, lnglat, description } = item;
+        addMarker(lnglat, placeName, description);
       });
     } catch (err) {
       errorMessage.value = (err as Error).message;
