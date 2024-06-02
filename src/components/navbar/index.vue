@@ -40,13 +40,20 @@
             class="nav-btn"
             type="outline"
             :shape="'circle'"
-            @click="toSearch"
+            @click="setDropDownVisible1"
           >
             <template #icon>
               <icon-search />
             </template>
           </a-button>
         </a-tooltip>
+        <a-dropdown trigger="click" @select="handleSearchSelect">
+          <div ref="triggerBtn1"></div>
+          <template #content>
+            <a-doption>Search User</a-doption>
+            <a-doption>Search Group</a-doption>
+          </template>
+        </a-dropdown>
       </li>
       <li>
         <a-tooltip :content="$t('settings.language')">
@@ -217,7 +224,7 @@
   import useLocale from '@/hooks/locale';
   import useUser from '@/hooks/user';
   import Menu from '@/components/menu/index.vue';
-  import { useRouter } from "vue-router";
+  import { useRouter } from 'vue-router';
   import MessageBox from '../message-box/index.vue';
 
   const appStore = useAppStore();
@@ -250,9 +257,19 @@
   const toMap = () => {
     router.push({ name: 'map' });
   };
-  const toSearch = () => {
+  const toSearchUser = () => {
     router.push({ name: 'user-list' });
   };
+  const toSearchGroup = () => {
+    router.push({ name: 'map' });
+  }
+  const handleSearchSelect = (v) => {
+    if (v === 'Search User') {
+      toSearchUser();
+    } else {
+      toSearchGroup();
+    }
+  }
   const handleToggleTheme = () => {
     toggleTheme();
   };
@@ -261,6 +278,7 @@
   };
   const refBtn = ref();
   const triggerBtn = ref();
+  const triggerBtn1 = ref();
   const setPopoverVisible = () => {
     const event = new MouseEvent('click', {
       view: window,
@@ -279,6 +297,15 @@
       cancelable: true,
     });
     triggerBtn.value.dispatchEvent(event);
+  };
+
+  const setDropDownVisible1 = () => {
+    const event = new MouseEvent('click', {
+      view: window,
+      bubbles: true,
+      cancelable: true,
+    });
+    triggerBtn1.value.dispatchEvent(event);
   };
   const switchRoles = async () => {
     const res = await userStore.switchRoles();

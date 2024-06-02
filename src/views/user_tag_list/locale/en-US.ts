@@ -1,5 +1,6 @@
 export default {
-  'menu.list.searchTable': 'User Matching Table',
+  'tag.list': 'List',
+  'tag.list.searchTable': 'User Matching Table',
 
   'searchTable.form.tags': 'Search Tags',
   'searchTable.form.searchType': 'Strict Match',

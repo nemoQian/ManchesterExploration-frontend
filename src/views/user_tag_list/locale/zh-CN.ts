@@ -1,5 +1,6 @@
 export default {
-  'menu.list.searchTable': '用户匹配表格',
+  'tag.list': '列表',
+  'tag.list.searchTable': '用户匹配表格',
 
   'searchTable.form.tags': '搜索标签',
   'searchTable.form.searchType': '严格匹配',
