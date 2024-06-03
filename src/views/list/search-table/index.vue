@@ -191,7 +191,7 @@
         :data="renderData"
         :bordered="false"
         :size="size"
-        @page-change="onPageChange"
+        @page-change=" onPageChange"
       >
         <template #index="{ rowIndex }">
           {{ rowIndex + 1 + (pagination.current - 1) * pagination.pageSize }}
@@ -280,7 +280,7 @@
 
   const basePagination: Pagination = {
     current: 1,
-    pageSize: 20,
+    pageSize: 15,
   };
   const pagination = reactive({
     ...basePagination,

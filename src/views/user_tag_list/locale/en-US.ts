@@ -1,6 +1,8 @@
 export default {
   'tag.list': 'List',
   'tag.list.searchTable': 'User Matching Table',
+  'group.list': 'My Group List',
+  'group.add': 'Group Create',
 
   'searchTable.form.tags': 'Search Tags',
   'searchTable.form.searchType': 'Strict Match',

@@ -1,6 +1,8 @@
 export default {
   'tag.list': '列表',
   'tag.list.searchTable': '用户匹配表格',
+  'group.list': '团队列表',
+  'group.add': '增加团队',
 
   'searchTable.form.tags': '搜索标签',
   'searchTable.form.searchType': '严格匹配',

@@ -45,7 +45,7 @@ export default {
   'menu.faq': 'FAQ',
   'menu.group': 'Group',
   'menu.group.create': 'New Group',
-  'menu.group.list': 'Group List',
+  'menu.group.list': 'My Group',
   'navbar.docs': 'Docs',
   'navbar.action.locale': 'Switch to English',
   ...localeSettings,

@@ -32,6 +32,15 @@ const GROUPLIST: AppRouteRecordRaw = {
         roles: [-1],
       },
     },
+    {
+      path: 'searchGroup',
+      name: 'SearchGroup',
+      component: () => import('@/views/group_list/search-index.vue'),
+      meta: {
+        requiresAuth: true,
+        hideInMenu: true,
+      },
+    },
   ],
 };
 

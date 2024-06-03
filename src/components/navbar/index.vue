@@ -261,7 +261,7 @@
     router.push({ name: 'user-list' });
   };
   const toSearchGroup = () => {
-    router.push({ name: 'map' });
+    router.push({ name: 'SearchGroup' });
   }
   const handleSearchSelect = (v) => {
     if (v === 'Search User') {

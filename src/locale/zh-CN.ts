@@ -45,7 +45,7 @@ export default {
   'menu.faq': '常见问题',
   'menu.group': '组队',
   'menu.group.create': '新建小组',
-  'menu.group.list': '小组列表',
+  'menu.group.list': '我的小组',
   'navbar.docs': '文档中心',
   'navbar.action.locale': '切换为中文',
   ...localeSettings,
