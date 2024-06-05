@@ -1,8 +1,8 @@
 <template>
   <div id="mapbox" class="mapbox"></div>
   <div>
-    <a-button type="primary" shape="round" class="map-button" @click="toLogin">
-      Login
+    <a-button type="primary" shape="round" class="map-button" @click="toUserCenter">
+      User Center
     </a-button>
     <MapSearch :map="map" />
   </div>
@@ -35,8 +35,8 @@
     map.value = new mapboxgl.Map(mapOption);
   });
 
-  const toLogin = () => {
-    router.push({ path: '/login' });
+  const toUserCenter = () => {
+    router.push({ path: '/user/setting' });
   };
 </script>
 

@@ -6,8 +6,8 @@
         <a-col :flex="1">
           <a-form
             :model="formModel"
-            :label-col-props="{ span: 6 }"
-            :wrapper-col-props="{ span: 18 }"
+            :label-col-props="{ span: 8 }"
+            :wrapper-col-props="{ span: 16 }"
             label-align="left"
           >
             <a-row :gutter="12">

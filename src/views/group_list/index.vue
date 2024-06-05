@@ -62,6 +62,9 @@
         <template #index="{ rowIndex }">
           {{ rowIndex + 1 + (pagination.current - 1) * pagination.pageSize }}
         </template>
+        <template #groupName="{ record }">
+          <a-input v-model="record.groupName" :disabled="record.groupCreateUserId !== -1"/>
+        </template>
         <template #relation="{ record }">
           <a-space>
             <a-tag v-if="record.groupCreateUserId === -1" color="blue" size="small">
@@ -72,18 +75,22 @@
         </template>
         <template #groupVisibility="{ record }">
           <a-space>
-            <a-tag v-if="record.groupVisibility === 0" color="blue" size="small">
-              Public
-            </a-tag>
-            <a-tag v-if="record.groupVisibility === 1" color="red" size="small">
-              Private
-            </a-tag>
+            <a-select v-model="record.groupVisibility" :options="options" :disabled="record.groupCreateUserId !== -1">
+            </a-select>
           </a-space>
         </template>
         <template #groupDescription="{ record }">
           <a-space>
-            <a-textarea v-model="record.groupDescription" disabled/>
+            <a-textarea v-model="record.groupDescription" :disabled="record.groupCreateUserId !== -1"/>
           </a-space>
+        </template>
+        <template #operation="{ record }">
+          <template v-if="record.groupCreateUserId === -1">
+            <a-button type="text" @click="saveEdit(record)"> Save </a-button>
+            <a-button type="text" @click="deleteGroup(record)"> Delete </a-button>
+          </template>
+          <a-button type="text" @click="inviteLink(record)"> Invite </a-button>
+          <a-button type="text" @click="exitGroup(record)"> Exit </a-button>
         </template>
       </a-table>
     </a-card>
@@ -118,6 +125,8 @@
   const pagination = reactive({
     ...basePagination,
   });
+
+  const options = reactive([{value: 0, label: 'Public'},{value: 1, label: 'Private'}]);
   const columns = computed<TableColumnData[]>(() => [
     {
       title: 'Id',
@@ -127,6 +136,7 @@
     {
       title: 'Group Name',
       dataIndex: 'groupName',
+      slotName: 'groupName',
     },
     {
       title: 'Relation',
@@ -148,11 +158,27 @@
       slotName: 'groupDescription',
     },
     {
-      title: 'Edit',
-      dataIndex: 'edit',
-      slotName: 'edit',
+      title: 'Operation',
+      dataIndex: 'operation',
+      slotName: 'operation',
     },
   ]);
+
+  const saveEdit = (record: any) => {
+    console.log(record);
+  }
+
+  const deleteGroup = (record: any) => {
+    console.log(record);
+  }
+
+  const inviteLink = (record: any) => {
+    console.log(record);
+  }
+
+  const exitGroup = (record: any) => {
+    console.log(record);
+  }
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-UK');
