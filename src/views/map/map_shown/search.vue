@@ -37,6 +37,7 @@
       :data="tagData"
       :filter-tree-node="filterTreeNode"
       placeholder="Filter By Tag"
+      @click="loadTagTreeData"
       style="width: 300px; border-radius: 25px;" />
 
     <a-button v-if="searchVisible" type="primary" shape="round" @click="search">
@@ -51,60 +52,13 @@
 <script lang="ts" setup>
   import { ref } from "vue";
   import mapboxgl from 'mapbox-gl';
-  import { getSelectTree, searchPlace } from "@/api/map";
+  import { getPlaceTagTree, getSelectTree, searchPlace } from "@/api/map";
 
   const errorMessage = ref('');
 
   const categoriesData = ref([{}]);
 
-  const tagData = ref([
-    {
-      title: 'Trunk 0-0',
-      key: '0-0',
-      children: [
-        {
-          title: 'Branch 0-0-1',
-          key: '0-0-1',
-          children: [
-            {
-              title: 'Leaf 0-0-1-1',
-              key: '0-0-1-1'
-            },
-            {
-              title: 'Leaf 0-0-1-2',
-              key: '0-0-1-2'
-            }
-          ]
-        },
-      ],
-    },
-    {
-      title: 'Trunk 0-1',
-      key: '0-1',
-      children: [
-        {
-          title: 'Branch 0-1-1',
-          key: '0-1-1',
-          children: [
-            {
-              title: 'Leaf 0-1-1-0',
-              key: '0-1-1-0',
-            }
-          ]
-        },
-        {
-          title: 'Branch 0-1-2',
-          key: '0-1-2',
-          children: [
-            {
-              title: 'Leaf 0-1-2-0',
-              key: '0-1-2-0',
-            }
-          ]
-        },
-      ],
-    },
-  ]);
+  const tagData = ref([]);
 
   const markData = ref();
 
@@ -133,6 +87,15 @@
     return nodeData.title.toLowerCase().indexOf(searchValue.toLowerCase()) > -1;
   };
 
+  const loadTagTreeData = async () => {
+    try {
+      const res = await getPlaceTagTree();
+      tagData.value = JSON.parse(res.data);
+    } catch (err) {
+      errorMessage.value = (err as Error).message;
+    }
+  }
+
   const addMarker = async (lnglat: [number, number], name: string, description: []) => {
     const marker = new mapboxgl.Marker()
       .setLngLat(lnglat)
@@ -152,7 +115,7 @@
     mapMarker.value = [];
   };
   const search = async () => {
-    console.log(searchForm.value.searchName);
+    console.log(searchForm.value);
     clearMarkers();
     try {
       const res = await searchPlace(searchForm.value);

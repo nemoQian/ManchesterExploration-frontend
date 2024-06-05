@@ -24,3 +24,7 @@ export function searchPlace(data: searchData) {
 export function getSelectTree() {
   return axios.get<selectTree[]>('/api/map/place/categoriesList');
 }
+
+export function getPlaceTagTree() {
+  return axios.get<string>('/api/user/placeTags/list');
+}
