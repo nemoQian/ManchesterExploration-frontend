@@ -50,9 +50,11 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref } from "vue";
+  import { ref, createSSRApp, h} from "vue";
   import mapboxgl from 'mapbox-gl';
   import { getPlaceTagTree, getSelectTree, searchPlace } from "@/api/map";
+  import { renderToString } from '@vue/server-renderer';
+  import tagShown from'./TagShown.vue'
 
   const errorMessage = ref('');
 
@@ -96,17 +98,37 @@
     }
   }
 
-  const addMarker = async (lnglat: [number, number], name: string, description: []) => {
+  const createPopupContent = async (name, description, osmId) => {
+    const app = createSSRApp({
+      render() {
+        return h(tagShown, { name, description, osmId });
+      }
+    });
+    const htmlMark = await renderToString(app);
+    return htmlMark;
+  };
+
+  const addMarker = async (lnglat: [number, number], name: string, description: [], osmId: number) => {
+    const htmlContent = await createPopupContent(name, description, osmId);
+
+    const popup = new mapboxgl.Popup().setHTML(htmlContent)
     const marker = new mapboxgl.Marker()
       .setLngLat(lnglat)
-      .setPopup(new mapboxgl.Popup().setHTML(
-        `<div>
-          <h2>${name}</h2>
-          <p> website: ${description.website} </p>
-          <p> Open Hours: ${description.opening_hours} </p>
-          <a href="#" onclick="addPlan()">Manage</>
-        </div>`))
+      .setPopup(popup)
       .addTo(props.map);
+
+    popup.on('open', () => {
+      const el = document.createElement('div');
+      el.innerHTML = htmlContent;
+      const app = createSSRApp({
+        render() {
+          return h(tagShown, { name, description, osmId });
+        }
+      });
+      app.mount(el);
+      popup.setDOMContent(el);
+    });
+
     mapMarker.value.push(marker);
   };
 
@@ -122,8 +144,8 @@
       markData.value = res.data;
       console.log(res);
       markData.value.forEach((item: any) => {
-        const { placeName, lnglat, description } = item;
-        addMarker(lnglat, placeName, description);
+        const { placeName, lnglat, description, osmId } = item;
+        addMarker(lnglat, placeName, description, osmId);
       });
     } catch (err) {
       errorMessage.value = (err as Error).message;
