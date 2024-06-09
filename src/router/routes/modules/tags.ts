@@ -13,21 +13,21 @@ const TAGLIST: AppRouteRecordRaw = {
   },
   children: [
     {
-      path: 'addTag',
-      name: 'AddTag',
+      path: 'listTag',
+      name: 'ListTag',
       component: () => import('@/views/tag_manage_list/index.vue'),
       meta: {
-        locale: 'menu.tag.create',
+        locale: 'menu.tag.list',
         requiresAuth: true,
         roles: [-1],
       },
     },
     {
-      path: 'listTag',
-      name: 'ListTag',
+      path: 'addTag',
+      name: 'AddTag',
       component: () => import('@/views/tag_add_list/index.vue'),
       meta: {
-        locale: 'menu.tag.list',
+        locale: 'menu.tag.create',
         requiresAuth: true,
         roles: [-1],
       },

@@ -1,6 +1,6 @@
 import axios from 'axios';
-import qs from "query-string";
-import { TagUserListRes } from "@/api/tagUserList";
+import qs from 'query-string';
+import { TagUserListRes } from '@/api/tagUserList';
 
 export interface BasicGroupModel {
   groupName: string | undefined;
@@ -12,7 +12,7 @@ export interface groupList {
   id: string;
   groupName: string;
   groupVisibility: number;
-  groupCreateDate: string;
+  createTime: string;
   groupDescription: [] | string;
 }
 
@@ -27,6 +27,10 @@ export function createGroup(data: BasicGroupModel) {
 
 export function queryGroupList(params: ListParams) {
   return axios.post('/api/user/group/groupList', params);
+}
+
+export function queryGroupOptionList() {
+  return axios.get('/api/user/group/getGroupOptionList');
 }
 
 export function joinTheGroup(data: groupList) {
