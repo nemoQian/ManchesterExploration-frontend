@@ -24,6 +24,15 @@ export interface placeTagWaitingList {
   createDate: string;
 }
 
+export interface placeTagInsertRequest {
+  id: string;
+  osmId: number;
+  tagName: string;
+  tagParentId: number;
+  tagVisibility: number;
+  tagBelongs: number;
+}
+
 export interface ListParams extends Partial<placeTagWaitingList> {
   current: number;
   pageSize: number;
@@ -32,6 +41,10 @@ export interface ListParams extends Partial<placeTagWaitingList> {
 export interface placeTagGroupOptionRequest {
   tagBelongs: number,
   tagShownState: number,
+}
+
+export interface deleteRequest {
+  id: number,
 }
 export function getChildTags(data: childTagData) {
   return axios.post<string>('/api/user/tags/childTags', data);
@@ -47,4 +60,14 @@ export function queryWaitingList(params: ListParams) {
 
 export function queryPlaceTagGroupOption(data: placeTagGroupOptionRequest){
   return axios.post('/api/user/placeTags/queryGroupTagsOption', data);
+}
+
+export function insertNewPlaceTag(data: placeTagInsertRequest){
+  return axios.post('/api/user/placeTags/insertNewPlaceTag', data);
+}
+
+export function deleteNewPlaceTag(data: number){
+  return axios.get<number>('/api/user/placeTags/deleteNewPlaceTag', {
+    params: data,
+  });
 }

@@ -66,14 +66,11 @@
           {{ record.placeName }}
         </template>
         <template #tagName="{ record }">
-          <a-input v-model="record.tagName"/>
+          <a-input v-model="record.tagName" />
         </template>
         <template #tagVisibility="{ record }">
           <a-space>
-            <a-select
-              v-model="record.tagVisibility"
-              :options="options"
-            >
+            <a-select v-model="record.tagVisibility" :options="options">
             </a-select>
           </a-space>
         </template>
@@ -125,9 +122,11 @@
     ListParams,
     queryWaitingList,
     queryPlaceTagGroupOption,
-    placeTagGroupOptionRequest
+    placeTagGroupOptionRequest,
+    placeTagInsertRequest, deleteNewPlaceTag, deleteRequest, insertNewPlaceTag
   } from "@/api/tags";
-  import { queryGroupOptionList } from "@/api/group";
+  import { queryGroupOptionList } from '@/api/group';
+  import { Message } from "@arco-design/web-vue";
 
   type SizeProps = 'mini' | 'small' | 'medium' | 'large';
   type Column = TableColumnData & { checked?: true };
@@ -137,12 +136,24 @@
   const renderData = ref<placeTagWaitingList[]>([]);
   const cloneColumns = ref<Column[]>([]);
   const showColumns = ref<Column[]>([]);
-  const groupTagOptionRequest = ref<placeTagGroupOptionRequest>({ tagBelongs: 0, tagShownState: 2 });
+  const groupTagOptionRequest = ref<placeTagGroupOptionRequest>({
+    tagBelongs: 0,
+    tagShownState: 2,
+  });
 
   const groupOption = ref();
   const groupTagOption = ref();
 
   const size = ref<SizeProps>('medium');
+
+  const insertRequest = ref<placeTagInsertRequest>({
+    id: '',
+    osmId: 0,
+    tagBelongs: 0,
+    tagName: '',
+    tagParentId: 0,
+    tagVisibility: 2,
+  });
 
   const basePagination: Pagination = {
     current: 1,
@@ -199,21 +210,50 @@
     },
   ]);
 
-  const saveEdit = (record: any) => {
-    console.log(record);
+  const saveEdit = async (record: any) => {
+    console.log(record)
+    insertRequest.value.id = record.id;
+    insertRequest.value.osmId = record.osmId;
+    insertRequest.value.tagBelongs = Number(record.tagBelongs);
+    insertRequest.value.tagVisibility = record.tagVisibility;
+    insertRequest.value.tagName = record.tagName;
+    insertRequest.value.tagParentId = Number(record.parentTag);
+    console.log(insertRequest.value);
+    try {
+      await insertNewPlaceTag(insertRequest.value);
+      Message.success('Create Successful');
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    } catch (err) {
+      errorMessage.value = (err as Error).message;
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const deleteEdit = (record: any) => {
-    console.log(record);
+  const deleteEdit = async (record: any) => {
+    try {
+      const deleteReq = ref<deleteRequest>({ id: record.id })
+      await deleteNewPlaceTag(deleteReq.value);
+      Message.success('Delete Successful');
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    } catch (err) {
+      // you can report use errorHandler or other
+    } finally {
+      setLoading(false);
+    }
   };
 
   const queryUserGroups = async () => {
-    const { data } = await queryGroupOptionList()
+    const { data } = await queryGroupOptionList();
     groupOption.value = data;
-  }
+  };
 
   const queryGroupTags = async (tagBelongs: number, tagShownState: number) => {
-    if(!tagBelongs){
+    if (!tagBelongs) {
       tagBelongs = -1;
     }
     groupTagOptionRequest.value.tagBelongs = Number(tagBelongs);
@@ -223,7 +263,7 @@
       groupTagOptionRequest.value
     );
     groupTagOption.value = data;
-  }
+  };
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-UK');
